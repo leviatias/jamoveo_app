@@ -5,20 +5,21 @@ import { useRouter } from 'next/navigation';
 import { getUserFromSession } from '../../utils/AuthUtils'; // Adjust this import based on your project structure
 import songsDB from '../../data/songDB'; // Adjust this import based on your project structure
 import io from 'socket.io-client';
+import { useUser } from '../../hooks/userContext';
 
 let socket;
 
 export default function MainPage() {
-	const [user, setUser] = useState(null);
+	const { user, logout } = useUser();
 	const [searchQuery, setSearchQuery] = useState('');
 	const [searchResults, setSearchResults] = useState([]);
 	const router = useRouter();
 	const sessionId = 'default-session-id';
 
 	useEffect(() => {
-		const currUser = getUserFromSession();
-		setUser(currUser);
-		socketInitializer(currUser);
+		// const currUser = getUserFromSession();
+		// setUser(currUser);
+		socketInitializer(user);
 
 		return () => {
 			if (socket) socket.disconnect();

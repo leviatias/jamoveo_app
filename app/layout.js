@@ -2,6 +2,7 @@ import localFont from 'next/font/local';
 import './globals.css';
 import { checkDatabaseConnection } from './lib/mongodb';
 import HeaderWrapper from './components/HeaderWrapper';
+import UserProviderWrapper from '../app/components/userProviderWrapper';
 const geistSans = localFont({
 	src: './fonts/GeistVF.woff',
 	variable: '--font-geist-sans',
@@ -24,8 +25,10 @@ export default function RootLayout({ children }) {
 		<html lang="en">
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-				<HeaderWrapper></HeaderWrapper>
-				{children}
+				<UserProviderWrapper>
+					<HeaderWrapper></HeaderWrapper>
+					{children}
+				</UserProviderWrapper>
 			</body>
 		</html>
 	);

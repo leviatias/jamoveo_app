@@ -6,6 +6,7 @@ import { getUserFromSession } from '../../utils/AuthUtils';
 import SongDisplay from '../components/SongDisplay';
 import songsDB from '../../data/songDB';
 import io from 'socket.io-client';
+import { useUser } from '../../hooks/userContext';
 
 let socket;
 
@@ -20,8 +21,6 @@ const fetchSongById = async (id) => {
 };
 
 export default function Live({ params }) {
-	// const router = useRouter();
-	const [user, setUser] = useState(null);
 	const [isScrolling, setIsScrolling] = useState(false);
 	const [currentSong, setCurrentSong] = useState({});
 	const [roomInfo, setRoomInfo] = useState({ participants: [], count: 0 });
@@ -29,14 +28,17 @@ export default function Live({ params }) {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const songId = searchParams.get('songId');
+	const { user } = useUser();
+	// If the user is logged in, redirect to the main app page
+	// If not, redirect to the login page
+	// This is a placeholder - replace with your actual auth check
+	// const isLoggedIn = false; // Replace with actual auth check
+	if (!user) {
+		return router.push('/login');
+	}
 
 	useEffect(() => {
-		const currUser = getUserFromSession();
-		// Simulating user fetch. Replace with your actual user fetching logic
-		setUser(currUser);
-		// setUser(mockUser);
-
-		socketInitializer(currUser);
+		socketInitializer(user);
 
 		return () => {
 			if (socket) socket.disconnect();

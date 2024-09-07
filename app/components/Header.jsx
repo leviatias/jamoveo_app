@@ -4,21 +4,24 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { removeUserFromSession } from '../../utils/AuthUtils';
+import { useUser } from '../../hooks/userContext';
 import Image from 'next/image';
 import logo from '../../img/logo.png';
 
-export default function Header({ user }) {
+export default function Header() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const pathname = usePathname();
+	const { user, logout } = useUser();
 	const router = useRouter();
 
 	const isActive = (path) => pathname === path;
 	const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 	const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+	console.log(user);
 
 	const handleLogout = () => {
-		removeUserFromSession();
+		logout();
 		router.push('/login');
 	};
 
@@ -38,7 +41,7 @@ export default function Header({ user }) {
 	return (
 		<header className="bg-primary text-white">
 			<nav className="max-w-7xl mx-auto -4 sm:px-6 lg:px-8" aria-label="Top">
-				<div className="w-full flex flex-col lg:flex-row items-center justify-between">
+				<div className="w-full flex fflex-col md:flex-row items-center justify-between">
 					<div className="flex flex-col lg:flex-row items-center mb-4 lg:mb-0">
 						<Link href="/" className="mb-4 lg:mb-0">
 							<span className="sr-only">JaMoveo</span>
@@ -151,8 +154,6 @@ export default function Header({ user }) {
 							<>
 								<NavLink href="/about_me">About Me</NavLink>
 								<NavLink href="/main">Live Jam</NavLink>
-								<NavLink href="/songs">Songs</NavLink>
-								{/* {user.isAdmin && <NavLink href="/admin">Admin</NavLink>} */}
 							</>
 						)}
 					</div>

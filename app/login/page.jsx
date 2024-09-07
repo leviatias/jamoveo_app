@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useUser } from '../../hooks/userContext';
 
 export default function LoginPage() {
 	const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ export default function LoginPage() {
 		password: '',
 	});
 	const [error, setError] = useState('');
+	const { login } = useUser();
 	const router = useRouter();
 
 	const handleChange = (e) => {
@@ -40,8 +42,7 @@ export default function LoginPage() {
 
 			console.log('Login successful:', data);
 
-			// Store user info in sessionStorage
-			sessionStorage.setItem('user', JSON.stringify(data.user));
+			login(data.user);
 
 			// Redirect to dashboard after successful login
 			router.push('/');

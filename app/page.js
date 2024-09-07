@@ -3,17 +3,18 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-
+import { getUserFromSession } from '../utils/AuthUtils'; // Adjust this import based on your project structure
+import { useUser } from '../hooks/userContext';
 export default function HomePage() {
 	const router = useRouter();
-
+	const { user } = useUser();
 	const handleStartJamming = () => {
 		// If the user is logged in, redirect to the main app page
 		// If not, redirect to the login page
 		// This is a placeholder - replace with your actual auth check
-		const isLoggedIn = false; // Replace with actual auth check
-		if (isLoggedIn) {
-			router.push('/app');
+		// const isLoggedIn = false; // Replace with actual auth check
+		if (user) {
+			router.push('/main');
 		} else {
 			router.push('/login');
 		}
