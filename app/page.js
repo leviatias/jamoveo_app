@@ -66,12 +66,7 @@ export default function HomePage() {
 					</button>
 				</div>
 
-				<p className="text-center mt-8 text-gray-600">
-					New to JaMoveo?{' '}
-					<Link href="/register" className="text-primary hover:underline">
-						Sign up here
-					</Link>
-				</p>
+				
 			</main>
 		</div>
 	);
