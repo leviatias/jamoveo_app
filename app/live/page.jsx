@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getUserFromSession } from '../../utils/AuthUtils';
 import SongDisplay from '../components/SongDisplay';
@@ -20,7 +20,7 @@ const fetchSongById = async (id) => {
 	});
 };
 
-export default function Live({ params }) {
+function LiveContent() {
 	const [isScrolling, setIsScrolling] = useState(false);
 	const [currentSong, setCurrentSong] = useState({});
 	const [roomInfo, setRoomInfo] = useState({ participants: [], count: 0 });
@@ -193,5 +193,13 @@ export default function Live({ params }) {
 				)}
 			</div>
 		</div>
+	);
+}
+
+export default function Live() {
+	return (
+		<Suspense fallback={<div className="text-white text-2xl">Loading...</div>}>
+			<LiveContent />
+		</Suspense>
 	);
 }
